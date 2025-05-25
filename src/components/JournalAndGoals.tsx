@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Plus, Trophy, Target, CheckCircle2 } from 'lucide-react'
-import { JournalEntry, WorkoutGoal, defaultGoals } from '../data/workoutFeatures'
+import { JournalEntry, WorkoutGoal } from '../data/workoutFeatures'
 
 interface JournalAndGoalsProps {
   goals: WorkoutGoal[]
@@ -18,9 +18,11 @@ export default function JournalAndGoals({ goals, onAddGoal }: JournalAndGoalsPro
     if (newEntry.note?.trim()) {
       onAddGoal({
         id: Date.now().toString(),
-        date: new Date().toISOString(),
-        mood: newEntry.mood || '😄',
-        note: newEntry.note,
+        type: 'workouts',
+        target: 1,
+        current: 0,
+        completed: false,
+        description: newEntry.note
       })
       setNewEntry({ mood: '😄', note: '' })
     }

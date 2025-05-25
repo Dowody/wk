@@ -168,6 +168,10 @@ export default function App() {
     setGoals(goals.map((g) => (g.id === goal.id ? goal : g)))
   }
 
+  const handleAddGoal = (goal: WorkoutGoal) => {
+    setGoals([...goals, goal])
+  }
+
   const handleAddNutritionLog = (log: NutritionLog) => {
     setNutritionLogs([...nutritionLogs, log])
   }
@@ -336,9 +340,8 @@ export default function App() {
                   <Route path="/nutrition" element={<NutritionTracker onAddLog={handleAddNutritionLog} />} />
                   <Route path="/goals" element={
                     <JournalAndGoals
-                      workoutLogs={[]}
-                      onAddJournalEntry={handleAddJournalEntry}
-                      onUpdateGoal={handleUpdateGoal}
+                      goals={goals}
+                      onAddGoal={handleAddGoal}
                     />
                   } />
                   <Route path="/settings" element={<Settings />} />
