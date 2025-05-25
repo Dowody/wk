@@ -2,8 +2,8 @@ import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Exercise } from "../types/workout"
-import { Save, Trash2 } from "lucide-react"
+import { motion } from 'framer-motion'
+import { Plus, Trash2 } from "lucide-react"
 
 type LogEntry = {
   exerciseId: string
@@ -51,7 +51,7 @@ export function WorkoutLogger() {
       <Card className="border-2">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Save className="h-5 w-5" />
+            <Plus className="h-5 w-5" />
             Today's Progress
           </CardTitle>
         </CardHeader>
@@ -115,7 +115,7 @@ export function WorkoutLogger() {
           {Object.keys(logs).length === 0 && (
             <div className="flex flex-col items-center justify-center py-12 text-center">
               <div className="rounded-full bg-primary/10 p-3 mb-4">
-                <Save className="h-6 w-6 text-primary" />
+                <Plus className="h-6 w-6 text-primary" />
               </div>
               <h3 className="font-semibold mb-1">No Workouts Logged</h3>
               <p className="text-sm text-muted-foreground">Start tracking your progress by logging your first workout</p>

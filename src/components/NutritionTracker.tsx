@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Plus, Droplet, Apple, Trash2 } from 'lucide-react'
+import { Plus, Apple, Trash2 } from 'lucide-react'
 import { NutritionLog } from '../data/workoutFeatures'
 import WaterPanel from './WaterPanel'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts'

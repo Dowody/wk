@@ -1,27 +1,21 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Plus } from "lucide-react"
 import { useState } from "react"
+import { motion } from 'framer-motion'
+import { Plus, Trash2 } from 'lucide-react'
+import { WorkoutPlan } from '../types/workout'
 
-interface WorkoutPlan {
-  id: number
-  name: string
-  exercises: string[]
-}
-
-export default function PlanPage() {
-  const [plans, setPlans] = useState<WorkoutPlan[]>([
+export default function Plan() {
+  const [plans] = useState<WorkoutPlan[]>([
     {
-      id: 1,
-      name: "Full Body Workout",
-      exercises: ["Squats", "Bench Press", "Deadlifts"]
+      id: '1',
+      name: 'Push Day',
+      exercises: [
+        { name: 'Bench Press', sets: 3, reps: 10, weight: 60 },
+        { name: 'Shoulder Press', sets: 3, reps: 12, weight: 40 },
+        { name: 'Tricep Pushdowns', sets: 3, reps: 15, weight: 30 },
+      ],
     },
-    {
-      id: 2,
-      name: "Upper Body Focus",
-      exercises: ["Push-ups", "Pull-ups", "Shoulder Press"]
-    }
   ])
 
   return (
@@ -47,7 +41,7 @@ export default function PlanPage() {
                     <span className="w-6 h-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm">
                       {index + 1}
                     </span>
-                    {exercise}
+                    {exercise.name}
                   </li>
                 ))}
               </ul>

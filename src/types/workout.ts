@@ -1,5 +1,5 @@
 export type Exercise = {
-  id: string
+  id?: string
   name: string
   sets: number
   reps: number
@@ -16,4 +16,10 @@ export type WorkoutDay = {
 export type WeeklyPlan = {
   id: string
   days: WorkoutDay[]
+}
+
+export type WorkoutPlan = {
+  id: string
+  name: string
+  exercises: Exercise[]
 }

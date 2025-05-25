@@ -24,7 +24,7 @@ import JournalAndGoals from './components/JournalAndGoals'
 import SupersetMode from './components/SupersetMode'
 import NutritionTracker from './components/NutritionTracker'
 import ExerciseManager from './components/ExerciseManager'
-import { JournalEntry, WorkoutGoal, NutritionLog } from './data/workoutFeatures'
+import { WorkoutGoal, NutritionLog } from './data/workoutFeatures'
 import { supabase } from './lib/supabaseClient'
 import { Toaster } from './components/ui/toaster'
 

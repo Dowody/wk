@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { WeeklyPlan, WorkoutDay } from '../types/workout'
+import { WeeklyPlan } from '../types/workout'
 import { defaultWeeklyPlan } from '../data/defaultWorkout'
 
 export function useWorkoutPlan() {

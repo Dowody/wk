@@ -10,8 +10,7 @@ import {
   Trash2,
   Clock,
   Dumbbell,
-  Target,
-  AlertCircle
+  Target
 } from 'lucide-react'
 import { workoutPlan, WorkoutDay, Exercise } from '../data/workoutPlan'
 import { Button } from '../components/ui/button'

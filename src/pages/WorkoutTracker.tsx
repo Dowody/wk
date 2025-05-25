@@ -79,45 +79,68 @@ export default function WorkoutTracker() {
   }, [date, type])
 
   const handleAddExercise = () => {
-    setExercises([...exercises, { name: '', sets: [{ reps: 0, weight: 0, completed: false }], notes: '', completed: false, extraSets: [] }])
+    setExercises([
+      ...exercises,
+      {
+        name: '',
+        sets: [{ reps: 0, weight: 0, completed: false }],
+        notes: '',
+        completed: false,
+        extraSets: []
+      },
+    ])
   }
-  const handleRemoveExercise = (idx: number) => {
-    setExercises(exercises.filter((_, i) => i !== idx))
+
+  const handleRemoveExercise = (index: number) => {
+    setExercises(exercises.filter((_, i) => i !== index))
   }
+
+  const handleSetComplete = (exIdx: number, setIdx: number, completed: boolean) => {
+    const newExercises = [...exercises]
+    newExercises[exIdx].sets[setIdx].completed = completed
+    setExercises(newExercises)
+  }
+
   const handleAddSet = (exIdx: number) => {
     const newExercises = [...exercises]
-    newExercises[exIdx].sets.push({ reps: 0, weight: 0, completed: false })
+    newExercises[exIdx].sets.push({
+      reps: 0,
+      weight: 0,
+      completed: false,
+    })
     setExercises(newExercises)
   }
+
   const handleRemoveSet = (exIdx: number, setIdx: number) => {
     const newExercises = [...exercises]
-    newExercises[exIdx].sets.splice(setIdx, 1)
+    newExercises[exIdx].sets = newExercises[exIdx].sets.filter((_, i) => i !== setIdx)
     setExercises(newExercises)
   }
-  const handleSetChange = (exIdx: number, setIdx: number, field: 'reps' | 'weight', value: number) => {
+
+  const handleSetChange = (
+    exIdx: number,
+    setIdx: number,
+    field: 'reps' | 'weight',
+    value: number
+  ) => {
     const newExercises = [...exercises]
     newExercises[exIdx].sets[setIdx][field] = value
     setExercises(newExercises)
   }
-  const handleExerciseName = (exIdx: number, value: string) => {
+
+  const handleExerciseChange = (
+    exIdx: number,
+    field: 'name' | 'notes',
+    value: string
+  ) => {
     const newExercises = [...exercises]
-    newExercises[exIdx].name = value
-    setExercises(newExercises)
-  }
-  const handleExerciseNotes = (exIdx: number, value: string) => {
-    const newExercises = [...exercises]
-    newExercises[exIdx].notes = value
-    setExercises(newExercises)
-  }
-  const handleSetCompleted = (exIdx: number, setIdx: number, value: boolean) => {
-    const newExercises = [...exercises]
-    newExercises[exIdx].sets[setIdx].completed = value
+    newExercises[exIdx][field] = value
     setExercises(newExercises)
   }
 
-  const handleExerciseComplete = (exIdx: number) => {
+  const handleExerciseComplete = (exIdx: number, completed: boolean) => {
     const newExercises = [...exercises]
-    newExercises[exIdx].completed = true
+    newExercises[exIdx].completed = completed
     setExercises(newExercises)
   }
 
@@ -168,80 +191,6 @@ export default function WorkoutTracker() {
         variant: "destructive"
       })
       setWorkoutCompleted(false)
-    }
-  }
-
-  const handleAddExtraSet = (exIdx: number) => {
-    const newExercises = [...exercises]
-    newExercises[exIdx].extraSets.push({ reps: 0, weight: 0, completed: false })
-    setExercises(newExercises)
-  }
-
-  const handleRemoveExtraSet = (exIdx: number, setIdx: number) => {
-    const newExercises = [...exercises]
-    newExercises[exIdx].extraSets.splice(setIdx, 1)
-    setExercises(newExercises)
-  }
-
-  const handleExtraSetChange = (exIdx: number, setIdx: number, field: 'reps' | 'weight', value: number) => {
-    const newExercises = [...exercises]
-    newExercises[exIdx].extraSets[setIdx][field] = value
-    setExercises(newExercises)
-  }
-
-  const handleExtraSetCompleted = (exIdx: number, setIdx: number, value: boolean) => {
-    const newExercises = [...exercises]
-    newExercises[exIdx].extraSets[setIdx].completed = value
-    setExercises(newExercises)
-  }
-
-  const handleSave = async () => {
-    try {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) throw new Error('Not authenticated')
-
-      const workoutData = {
-        user_id: user.id,
-        date,
-        type,
-        mood,
-        completed: workoutCompleted,
-        exercises: exercises.map(ex => ({
-          name: ex.name,
-          sets: ex.sets.map(set => ({
-            reps: set.reps,
-            weight: set.weight,
-            completed: set.completed
-          })),
-          extra_sets: ex.extraSets.map(set => ({
-            reps: set.reps,
-            weight: set.weight,
-            completed: set.completed
-          })),
-          notes: ex.notes,
-          completed: ex.completed
-        }))
-      }
-
-      const { error } = await supabase
-        .from('workout_logs')
-        .upsert([workoutData], {
-          onConflict: 'user_id,date'
-        })
-
-      if (error) throw error
-
-      toast({
-        title: "Workout saved",
-        description: "Your workout has been saved successfully.",
-      })
-    } catch (error) {
-      console.error('Error saving workout:', error)
-      toast({
-        title: "Error saving workout",
-        description: "There was a problem saving your workout. Please try again.",
-        variant: "destructive"
-      })
     }
   }
 
@@ -414,7 +363,7 @@ export default function WorkoutTracker() {
                     <Input
                       placeholder="Exercise name"
                       value={ex.name}
-                      onChange={e => handleExerciseName(exIdx, e.target.value)}
+                      onChange={e => handleExerciseChange(exIdx, 'name', e.target.value)}
                       className="flex-1 text-xs sm:text-base"
                     />
                   </div>
@@ -427,7 +376,7 @@ export default function WorkoutTracker() {
                       variant={isExerciseComplete ? "default" : "outline"}
                       size="sm"
                       className="whitespace-nowrap text-xs sm:text-sm px-2 sm:px-3 py-1"
-                      onClick={() => handleExerciseComplete(exIdx)}
+                      onClick={() => handleExerciseComplete(exIdx, true)}
                     >
                       {isExerciseComplete ? 'Completed' : 'Complete Exercise'}
                     </Button>
@@ -453,7 +402,7 @@ export default function WorkoutTracker() {
                           <input
                             type="checkbox"
                             checked={!!set.completed}
-                            onChange={e => handleSetCompleted(exIdx, setIdx, e.target.checked)}
+                            onChange={e => handleSetComplete(exIdx, setIdx, e.target.checked)}
                             className="accent-green-500 h-5 w-5"
                             aria-label="Set completed"
                           />
@@ -503,7 +452,7 @@ export default function WorkoutTracker() {
                           <input
                             type="checkbox"
                             checked={!!set.completed}
-                            onChange={e => handleExtraSetCompleted(exIdx, setIdx, e.target.checked)}
+                            onChange={e => handleSetComplete(exIdx, setIdx, e.target.checked)}
                             className="accent-green-500 h-5 w-5"
                             aria-label="Extra set completed"
                           />
@@ -511,17 +460,17 @@ export default function WorkoutTracker() {
                             type="number"
                             placeholder="Reps"
                             value={set.reps}
-                            onChange={e => handleExtraSetChange(exIdx, setIdx, 'reps', Number(e.target.value))}
+                            onChange={e => handleSetChange(exIdx, setIdx, 'reps', Number(e.target.value))}
                             className="w-16 sm:w-20 text-xs sm:text-base"
                           />
                           <Input
                             type="number"
                             placeholder="Weight (kg)"
                             value={set.weight}
-                            onChange={e => handleExtraSetChange(exIdx, setIdx, 'weight', Number(e.target.value))}
+                            onChange={e => handleSetChange(exIdx, setIdx, 'weight', Number(e.target.value))}
                             className="w-20 sm:w-28 text-xs sm:text-base"
                           />
-                          <Button variant="ghost" size="icon" onClick={() => handleRemoveExtraSet(exIdx, setIdx)}>
+                          <Button variant="ghost" size="icon" onClick={() => handleRemoveSet(exIdx, setIdx)}>
                             <X className="h-4 w-4 text-destructive" />
                           </Button>
                           {/* Timer UI for each set */}
@@ -541,7 +490,7 @@ export default function WorkoutTracker() {
                 <Textarea
                   placeholder="Notes (optional)"
                   value={ex.notes}
-                  onChange={e => handleExerciseNotes(exIdx, e.target.value)}
+                  onChange={e => handleExerciseChange(exIdx, 'notes', e.target.value)}
                   className="mt-2 sm:mt-4 text-xs sm:text-base"
                 />
               </motion.div>

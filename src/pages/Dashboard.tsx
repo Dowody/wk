@@ -207,34 +207,60 @@ export default function Dashboard() {
   ]
 
   return (
-    <div className="space-y-4 px-2 py-4 sm:space-y-6 sm:px-6 sm:py-6">
+    <div className="space-y-4 px-4 py-4 sm:space-y-6 sm:px-6 sm:py-6">
       <div>
         <h1 className="text-xl font-bold text-foreground sm:text-2xl">Dashboard</h1>
-        <p className="mt-1 text-sm text-foreground-muted sm:text-base">Welcome back! Here's your fitness overview.</p>
+        <p className="mt-1 text-sm text-foreground-muted sm:text-base">Track your fitness journey</p>
       </div>
 
       {/* Stats Overview */}
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">
-        <StatCard
-          title="Total Workouts"
-          value={stats.totalWorkouts.toString()}
-          icon={Activity}
-        />
-        <StatCard
-          title="Calories Burned"
-          value={stats.totalExercises.toString()}
-          icon={Flame}
-        />
-        <StatCard
-          title="Goal Progress"
-          value="65%"
-          icon={Target}
-        />
-        <StatCard
-          title="Achievements"
-          value="7"
-          icon={Award}
-        />
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+        <div className="rounded-xl border border-border bg-card p-3 sm:p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-foreground-muted">Total Workouts</p>
+              <p className="mt-1 text-xl font-semibold text-foreground sm:text-2xl">{stats.totalWorkouts}</p>
+            </div>
+            <div className="rounded-lg bg-primary/10 p-2 sm:p-3">
+              <Activity className="h-5 w-5 text-primary sm:h-6 sm:w-6" />
+            </div>
+          </div>
+        </div>
+        <div className="rounded-xl border border-border bg-card p-3 sm:p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-foreground-muted">Total Exercises</p>
+              <p className="mt-1 text-xl font-semibold text-foreground sm:text-2xl">{stats.totalExercises}</p>
+            </div>
+            <div className="rounded-lg bg-green-500/10 p-2 sm:p-3">
+              <Dumbbell className="h-5 w-5 text-green-500 sm:h-6 sm:w-6" />
+            </div>
+          </div>
+        </div>
+        <div className="rounded-xl border border-border bg-card p-3 sm:p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-foreground-muted">Total Weight</p>
+              <p className="mt-1 text-xl font-semibold text-foreground sm:text-2xl">{stats.totalWeight}kg</p>
+            </div>
+            <div className="rounded-lg bg-blue-500/10 p-2 sm:p-3">
+              <Target className="h-5 w-5 text-blue-500 sm:h-6 sm:w-6" />
+            </div>
+          </div>
+        </div>
+        <div className="rounded-xl border border-border bg-card p-3 sm:p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-foreground-muted">Last Workout</p>
+              <p className="mt-1 text-xl font-semibold text-foreground sm:text-2xl">
+                {stats.lastWorkoutDate ? new Date(stats.lastWorkoutDate).toLocaleDateString() : 'Never'}
+              </p>
+            </div>
+            <div className="rounded-lg bg-purple-500/10 p-2 sm:p-3">
+              <TrendingUp className="h-5 w-5 text-purple-500 sm:h-6 sm:w-6" />
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Water Panel */}

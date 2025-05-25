@@ -1,4 +1,4 @@
-import { Exercise, WorkoutDay } from './workoutPlan'
+import { WorkoutDay } from './workoutPlan'
 
 export interface WorkoutLog {
   date: string
@@ -60,7 +60,6 @@ export function getDaysSinceLastWorkout(
 // Generate workout recommendations
 export function getWorkoutRecommendations(
   workoutLogs: WorkoutLog[],
-  workoutPlan: WorkoutDay[]
 ): string[] {
   const recommendations: string[] = []
   const muscleGroups = ['legs', 'chest', 'back', 'shoulders', 'arms']

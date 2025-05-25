@@ -8,6 +8,9 @@ import {
   Trash2,
   Save,
   ChevronRight,
+  Bell,
+  User,
+  Lock,
 } from 'lucide-react'
 import { workoutPlan } from '../data/workoutPlan'
 
@@ -34,6 +37,8 @@ export default function Settings() {
     sets: 3,
     reps: 10,
   })
+  const [notifications, setNotifications] = useState(true)
+  const [emailNotifications, setEmailNotifications] = useState(true)
 
   // Load settings from localStorage
   useEffect(() => {
