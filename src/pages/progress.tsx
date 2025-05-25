@@ -11,7 +11,6 @@ import {
   ResponsiveContainer,
 } from 'recharts'
 import { WorkoutLog, BodyMeasurement } from '../data/workoutHistory'
-import { workoutPlan } from '../data/workoutPlan'
 import { supabase } from '../lib/supabaseClient'
 
 interface StreakData {

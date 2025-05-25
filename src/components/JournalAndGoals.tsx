@@ -4,17 +4,11 @@ import { Plus, Trophy, Target, CheckCircle2 } from 'lucide-react'
 import { JournalEntry, WorkoutGoal, defaultGoals } from '../data/workoutFeatures'
 
 interface JournalAndGoalsProps {
-  workoutLogs: any[] // Replace with proper type
-  onAddJournalEntry: (entry: JournalEntry) => void
-  onUpdateGoal: (goal: WorkoutGoal) => void
+  goals: WorkoutGoal[]
+  onAddGoal: (goal: WorkoutGoal) => void
 }
 
-export default function JournalAndGoals({
-  workoutLogs,
-  onAddJournalEntry,
-  onUpdateGoal,
-}: JournalAndGoalsProps) {
-  const [goals, setGoals] = useState<WorkoutGoal[]>(defaultGoals)
+export default function JournalAndGoals({ goals, onAddGoal }: JournalAndGoalsProps) {
   const [newEntry, setNewEntry] = useState<Partial<JournalEntry>>({
     mood: '😄',
     note: '',
@@ -22,7 +16,7 @@ export default function JournalAndGoals({
 
   const addJournalEntry = () => {
     if (newEntry.note?.trim()) {
-      onAddJournalEntry({
+      onAddGoal({
         id: Date.now().toString(),
         date: new Date().toISOString(),
         mood: newEntry.mood || '😄',

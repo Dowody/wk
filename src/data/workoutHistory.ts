@@ -18,6 +18,7 @@ export interface WorkoutLog {
 }
 
 export interface BodyMeasurement {
+  id?: string
   date: string
   weight: number
   waist?: number

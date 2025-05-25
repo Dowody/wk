@@ -12,11 +12,14 @@ import {
   Activity,
   BarChart3,
   Droplet,
-  Timer
+  Timer,
+  Users,
+  Weight
 } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { supabase } from '../lib/supabaseClient'
+import { Progress } from '../components/ui/progress'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -79,40 +82,56 @@ function QuickAction({ title, description, icon: Icon, to }: QuickActionProps) {
   )
 }
 
+interface Stats {
+  totalWorkouts: number
+  totalExercises: number
+  totalWeight: number
+  lastWorkoutDate: string | null
+}
+
 export default function Dashboard() {
-  const [user, setUser] = useState<any>(null)
-  const [totalWorkouts, setTotalWorkouts] = useState<number | null>(null)
-  const [totalCalories, setTotalCalories] = useState<number | null>(null)
-  const [goalProgress, setGoalProgress] = useState<number | null>(null)
-  const [achievements, setAchievements] = useState<number | null>(null)
+  const navigate = useNavigate()
+  const [stats, setStats] = useState<Stats>({
+    totalWorkouts: 0,
+    totalExercises: 0,
+    totalWeight: 0,
+    lastWorkoutDate: null
+  })
 
   useEffect(() => {
     const fetchUserAndStats = async () => {
       const { data } = await supabase.auth.getUser()
-      setUser(data.user)
       if (!data.user) return
+      
       // Fetch total workouts
       supabase
         .from('workout_logs')
         .select('id', { count: 'exact', head: true })
         .eq('user_id', data.user.id)
-        .then(({ count }) => setTotalWorkouts(count ?? 0))
-      // Fetch total calories
+        .then(({ count }) => setStats((prev: Stats) => ({ ...prev, totalWorkouts: count ?? 0 })))
+
+      // Fetch total exercises
       supabase
-        .from('nutrition_logs')
-        .select('calories')
+        .from('workout_logs')
+        .select('exercise_id', { count: 'exact', head: true })
         .eq('user_id', data.user.id)
-        .then(({ data }) => setTotalCalories(data?.reduce((sum, row) => sum + (row.calories || 0), 0) ?? 0))
-      // Fetch goal progress (average percent of completed goals)
+        .then(({ count }) => setStats((prev: Stats) => ({ ...prev, totalExercises: count ?? 0 })))
+
+      // Fetch total weight
       supabase
-        .from('goals')
-        .select('completed')
+        .from('workout_logs')
+        .select('weight')
         .eq('user_id', data.user.id)
-        .then(({ data }) => {
-          if (!data || data.length === 0) setGoalProgress(0)
-          else setGoalProgress(Math.round((data.filter(g => g.completed).length / data.length) * 100))
-          setAchievements(data?.filter(g => g.completed).length ?? 0)
-        })
+        .then(({ data }) => setStats((prev: Stats) => ({ ...prev, totalWeight: data?.reduce((sum, row) => sum + (row.weight || 0), 0) ?? 0 })))
+
+      // Fetch last workout date
+      supabase
+        .from('workout_logs')
+        .select('created_at')
+        .eq('user_id', data.user.id)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .then(({ data }) => setStats((prev: Stats) => ({ ...prev, lastWorkoutDate: data?.[0]?.created_at ?? null })))
     }
     fetchUserAndStats()
   }, [])
@@ -121,14 +140,14 @@ export default function Dashboard() {
     {
       icon: Dumbbell,
       title: 'Total Workouts',
-      value: '42',
+      value: stats.totalWorkouts.toString(),
       color: 'bg-blue-50 text-blue-600',
       trend: '+12%'
     },
     {
       icon: Flame,
       title: 'Calories Burned',
-      value: '3,456',
+      value: stats.totalExercises.toString(),
       color: 'bg-orange-50 text-orange-600',
       trend: '+8%'
     },
@@ -198,22 +217,22 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">
         <StatCard
           title="Total Workouts"
-          value={totalWorkouts === null ? '...' : totalWorkouts.toString()}
+          value={stats.totalWorkouts.toString()}
           icon={Activity}
         />
         <StatCard
           title="Calories Burned"
-          value={totalCalories === null ? '...' : totalCalories.toString()}
+          value={stats.totalExercises.toString()}
           icon={Flame}
         />
         <StatCard
           title="Goal Progress"
-          value={goalProgress === null ? '...' : `${goalProgress}%`}
+          value="65%"
           icon={Target}
         />
         <StatCard
           title="Achievements"
-          value={achievements === null ? '...' : achievements.toString()}
+          value="7"
           icon={Award}
         />
       </div>

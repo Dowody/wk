@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { Calendar, Plus, X, Check, Save, Dumbbell, Target } from 'lucide-react'
+import { Calendar, Plus, X, Check, Dumbbell } from 'lucide-react'
 import { Button } from '../components/ui/button'
 import { Input } from '../components/ui/input'
 import { Textarea } from '../components/ui/textarea'
@@ -43,7 +43,6 @@ export default function WorkoutTracker() {
       extraSets: [] 
     }
   ])
-  const [saving, setSaving] = useState(false)
   const [workoutCompleted, setWorkoutCompleted] = useState(false)
   const [setTimers, setSetTimers] = useState<{ [key: string]: number }>({})
   const [setTimerActive, setSetTimerActive] = useState<{ [key: string]: boolean }>({})
@@ -198,7 +197,6 @@ export default function WorkoutTracker() {
 
   const handleSave = async () => {
     try {
-      setSaving(true)
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) throw new Error('Not authenticated')
 
@@ -244,8 +242,6 @@ export default function WorkoutTracker() {
         description: "There was a problem saving your workout. Please try again.",
         variant: "destructive"
       })
-    } finally {
-      setSaving(false)
     }
   }
 
