@@ -18,7 +18,6 @@ interface WorkoutInsightsProps {
 
 export default function WorkoutInsights({
   workoutLogs,
-  workoutPlan,
 }: WorkoutInsightsProps) {
   const recommendations = getWorkoutRecommendations(workoutLogs)
   const progress = calculateProgress(workoutLogs)

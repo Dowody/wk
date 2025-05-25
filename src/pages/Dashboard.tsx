@@ -3,26 +3,18 @@ import { motion } from 'framer-motion'
 import { 
   Dumbbell, 
   TrendingUp, 
-  Calendar, 
-  Clock, 
   Flame,
   Target,
   Award,
   BarChart2,
   Activity,
-  BarChart3,
   Droplet,
   Timer,
-  Users,
-  Weight
 } from 'lucide-react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { supabase } from '../lib/supabaseClient'
-import { Progress } from '../components/ui/progress'
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
 import WaterPanel from '../components/WaterPanel'
 
 interface StatCardProps {
@@ -135,75 +127,6 @@ export default function Dashboard() {
     fetchUserAndStats()
   }, [])
 
-  const statsData = [
-    {
-      icon: Dumbbell,
-      title: 'Total Workouts',
-      value: stats.totalWorkouts.toString(),
-      color: 'bg-blue-50 text-blue-600',
-      trend: '+12%'
-    },
-    {
-      icon: Flame,
-      title: 'Calories Burned',
-      value: stats.totalExercises.toString(),
-      color: 'bg-orange-50 text-orange-600',
-      trend: '+8%'
-    },
-    {
-      icon: Target,
-      title: 'Goal Progress',
-      value: '65%',
-      color: 'bg-green-50 text-green-600',
-      trend: '+5%'
-    },
-    {
-      icon: Award,
-      title: 'Achievements',
-      value: '7',
-      color: 'bg-purple-50 text-purple-600',
-      trend: '+3'
-    }
-  ]
-
-  const workoutHistory = [
-    {
-      name: 'Strength Training',
-      date: 'Feb 15, 2024',
-      duration: '1h 15m',
-      intensity: 'High',
-      calories: 450,
-      icon: BarChart2
-    },
-    {
-      name: 'HIIT Cardio',
-      date: 'Feb 13, 2024',
-      duration: '45m',
-      intensity: 'Medium',
-      calories: 350,
-      icon: Flame
-    },
-    {
-      name: 'Yoga Flow',
-      date: 'Feb 10, 2024',
-      duration: '1h',
-      intensity: 'Low',
-      calories: 200,
-      icon: Target
-    }
-  ]
-
-  const upcomingWorkouts = [
-    {
-      name: 'Leg Day',
-      date: 'Tomorrow',
-      exercises: [
-        { name: 'Squats', sets: 4, reps: 12 },
-        { name: 'Lunges', sets: 3, reps: 15 },
-        { name: 'Leg Press', sets: 3, reps: 10 }
-      ]
-    }
-  ]
 
   return (
     <div className="space-y-4 px-4 py-4 sm:space-y-6 sm:px-6 sm:py-6">

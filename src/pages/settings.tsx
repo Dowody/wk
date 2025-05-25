@@ -8,9 +8,6 @@ import {
   Trash2,
   Save,
   ChevronRight,
-  Bell,
-  User,
-  Lock,
 } from 'lucide-react'
 import { workoutPlan } from '../data/workoutPlan'
 
@@ -22,12 +19,6 @@ interface Exercise {
   notes?: string
 }
 
-interface WorkoutDay {
-  day: string
-  focus: string
-  exercises: Exercise[]
-}
-
 export default function Settings() {
   const [isDarkMode, setIsDarkMode] = useState(true)
   const [workoutTime, setWorkoutTime] = useState('18:00')
@@ -37,8 +28,6 @@ export default function Settings() {
     sets: 3,
     reps: 10,
   })
-  const [notifications, setNotifications] = useState(true)
-  const [emailNotifications, setEmailNotifications] = useState(true)
 
   // Load settings from localStorage
   useEffect(() => {
