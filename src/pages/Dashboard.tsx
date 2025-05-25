@@ -90,7 +90,6 @@ interface Stats {
 }
 
 export default function Dashboard() {
-  const navigate = useNavigate()
   const [stats, setStats] = useState<Stats>({
     totalWorkouts: 0,
     totalExercises: 0,

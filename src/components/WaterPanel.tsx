@@ -1,6 +1,7 @@
+import { Droplet } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Droplet, Plus, Minus } from 'lucide-react'
+import { Plus, Minus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Link } from 'react-router-dom'
 

@@ -1,5 +1,3 @@
-import { WorkoutDay } from './workoutPlan'
-
 export interface WorkoutLog {
   date: string
   day: string

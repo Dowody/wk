@@ -20,7 +20,7 @@ export default function WorkoutInsights({
   workoutLogs,
   workoutPlan,
 }: WorkoutInsightsProps) {
-  const recommendations = getWorkoutRecommendations(workoutLogs, workoutPlan)
+  const recommendations = getWorkoutRecommendations(workoutLogs)
   const progress = calculateProgress(workoutLogs)
 
   // Prepare data for weight progression chart
