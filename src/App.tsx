@@ -127,7 +127,6 @@ function AuthForm({ onAuth }: { onAuth: () => void }) {
 export default function App() {
   const [isDarkMode, setIsDarkMode] = useState(true)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>([])
   const [goals, setGoals] = useState<WorkoutGoal[]>([])
   const [nutritionLogs, setNutritionLogs] = useState<NutritionLog[]>([])
   const location = useLocation()
@@ -159,14 +158,6 @@ export default function App() {
     })
     return () => { listener.subscription.unsubscribe() }
   }, [])
-
-  const handleAddJournalEntry = (entry: JournalEntry) => {
-    setJournalEntries([...journalEntries, entry])
-  }
-
-  const handleUpdateGoal = (goal: WorkoutGoal) => {
-    setGoals(goals.map((g) => (g.id === goal.id ? goal : g)))
-  }
 
   const handleAddGoal = (goal: WorkoutGoal) => {
     setGoals([...goals, goal])
