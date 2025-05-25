@@ -14,14 +14,6 @@ import { supabase } from '../lib/supabaseClient'
 
 import WaterPanel from '../components/WaterPanel'
 
-interface StatCardProps {
-  title: string
-  value: string
-  icon: React.ComponentType<{ className?: string }>
-  trend?: string
-  color?: string
-}
-
 interface QuickActionProps {
   title: string
   description: string
