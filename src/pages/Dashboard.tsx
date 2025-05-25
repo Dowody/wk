@@ -3,10 +3,7 @@ import { motion } from 'framer-motion'
 import { 
   Dumbbell, 
   TrendingUp, 
-  Flame,
   Target,
-  Award,
-  BarChart2,
   Activity,
   Droplet,
   Timer,
@@ -23,31 +20,6 @@ interface StatCardProps {
   icon: React.ComponentType<{ className?: string }>
   trend?: string
   color?: string
-}
-
-function StatCard({ title, value, icon: Icon, trend, color = 'primary' }: StatCardProps) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="overflow-hidden rounded-xl border border-border bg-card p-2 sm:p-4 shadow-lg"
-    >
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-sm text-foreground-muted">{title}</p>
-          <p className="mt-1 text-xl font-semibold text-foreground sm:text-2xl">{value}</p>
-          {trend && (
-            <p className={`mt-1 text-sm ${color === 'primary' ? 'text-primary' : 'text-green-500'}`}>
-              {trend}
-            </p>
-          )}
-        </div>
-        <div className={`rounded-lg bg-${color}/10 p-2 sm:p-3`}>
-          <Icon className={`h-5 w-5 text-${color} sm:h-6 sm:w-6`} />
-        </div>
-      </div>
-    </motion.div>
-  )
 }
 
 interface QuickActionProps {

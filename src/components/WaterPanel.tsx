@@ -1,9 +1,6 @@
 import { Droplet } from 'lucide-react'
 import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
-import { Plus, Minus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Link } from 'react-router-dom'
 
 export default function WaterPanel() {
   const DAILY_GOAL_ML = 2000
